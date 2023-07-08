@@ -5,6 +5,7 @@ const setofWords = [
     "The sun peeked through the clouds, casting a warm golden glow over the tranquil meadow.",
     "The city buzzed with energy as people hurriedly went about their day.",
   ];
+
   
   const msg = document.getElementById('msg');
   const typeWords = document.getElementById('mywords');
@@ -65,4 +66,6 @@ const setofWords = [
       endPlay();
     }
   });
+
+
   
