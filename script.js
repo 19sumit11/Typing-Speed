@@ -27,9 +27,9 @@ const endPlay = () => {
     let totalStr = typeWords.value;
     let wordCount = wordCounter(totalStr);
 
-let speed = Math.round((wordCount / totalTime) * 60);
-let finalMsg = "you typed total at " +speed+ "words per minutes";
-msg.innerText = finalMsg;
+    let speed = Math.round((wordCount / totalTime) * 60);
+    let finalMsg = "you typed total at " + speed + "words per minutes";
+    msg.innerText = finalMsg;
 
 }
 const wordCounter = (str) => {
