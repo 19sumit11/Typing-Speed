@@ -1,67 +1,68 @@
-const setofWords = ["My name is sumit kumar shriwastava and i am a student,",
-    "Hello users you are using my own made typing speed,",
-    "Hope you are having fun this is a simple game you can make.",
-    "The sun peeked through the clouds, casting a warm golden glow over the tranquil meadow. The gentle breeze rustled the leaves of the trees, creating a soothing melody. Birds chirped happily, filling the air with their joyful songs. In the distance, a river meandered through the landscape, its crystal-clear waters reflecting the vibrant colors of the surrounding flowers. Nature seemed to be in perfect harmony, creating a serene and peaceful atmosphere.",
-    "The city buzzed with energy as people hurriedly went about their day. Skyscrapers reached towards the sky, their glass windows glinting in the sunlight. Cars honked, buses rumbled, and footsteps echoed on the bustling streets. Neon signs illuminated the night, creating a vibrant and colorful spectacle. Cafes and restaurants filled with laughter and the aroma of freshly brewed coffee. Amidst the urban chaos, each person had their own story, their own dreams and aspirations, intertwining in the tapestry of city life."];
-
-const msg = document.getElementById('msg');
-const typeWords = document.getElementById('mywords');
-const btn = document.getElementById('btn');
-let startTime, endTime;
-
-const playGame = () => {
+const setofWords = [
+    "My name is sumit kumar shriwastava and I am a student.",
+    "Hello users, you are using my own-made typing speed game.",
+    "Hope you are having fun! This is a simple game you can enjoy.",
+    "The sun peeked through the clouds, casting a warm golden glow over the tranquil meadow.",
+    "The city buzzed with energy as people hurriedly went about their day.",
+  ];
+  
+  const msg = document.getElementById('msg');
+  const typeWords = document.getElementById('mywords');
+  const btn = document.getElementById('btn');
+  let startTime, endTime;
+  
+  const playGame = () => {
     let randomNumber = Math.floor(Math.random() * setofWords.length);
     msg.innerText = setofWords[randomNumber];
-    let date = new Date();
-    startTime = date.getTime();
+    typeWords.disabled = false;
+    typeWords.value = '';
+    typeWords.focus();
+    startTime = new Date().getTime();
     btn.innerText = "Done";
-}
-
-const endPlay = () => {
-    let date = new Date();
-    endTime = date.getTime();
+  }
+  
+  const endPlay = () => {
+    endTime = new Date().getTime();
     let totalTime = ((endTime - startTime) / 1000);
-    console.log(totalTime);
-
-
+  
     let totalStr = typeWords.value;
     let wordCount = wordCounter(totalStr);
-
+  
     let speed = Math.round((wordCount / totalTime) * 60);
-    let finalMsg = "you typed total at " + speed + "words per minutes. ";
-
-    finalMsg += compareWords(msg.innerText, totalStr);
+    let accuracy = calculateAccuracy(msg.innerText, totalStr);
+  
+    let finalMsg = `You typed ${wordCount} words in ${totalTime} seconds at a speed of ${speed} words per minute with an accuracy of ${accuracy}%.`;
     msg.innerText = finalMsg;
-
-}
-
-const compareWords = (str1, str2) => {
-    let word1 = str1.split(" ");
-    let word2 = str2.split(" ");
-    let cnt = 0;
-
-word1.forEach(function (item, index) {
-    if (item == word2[index]) {
-        cnt++;
-    }
-})
-let errorWord = (word1.length - cnt);
-return (cnt + " correct out of " + word1.length + "words and the total number of error are " + errorWord + ".");
-};
-const wordCounter = (str) => {
-    let response = str.split(" ").length;
-    console.log(response);
+  
+    typeWords.disabled = true;
+    btn.innerText = "Start";
+  }
+  
+  const calculateAccuracy = (expected, typed) => {
+    let expectedWords = expected.split(" ");
+    let typedWords = typed.split(" ");
+    let correctWords = 0;
+  
+    expectedWords.forEach((word, index) => {
+      if (word === typedWords[index]) {
+        correctWords++;
+      }
+    });
+  
+    let accuracyPercentage = (correctWords / expectedWords.length) * 100;
+    return accuracyPercentage.toFixed(2);
+  }
+  
+  const wordCounter = (str) => {
+    let response = str.trim().split(" ").filter(word => word !== '').length;
     return response;
-}
-
-btn.addEventListener('click', function () {
+  }
+  
+  btn.addEventListener('click', function () {
     if (this.innerText === 'Start') {
-        typeWords.disabled = false;
-        playGame();
+      playGame();
+    } else if (this.innerText === "Done") {
+      endPlay();
     }
-    else if (this.innerText === "Done") {
-        typeWords.disabled = true;
-        btn.innerText = "Start";
-        endPlay();
-    }
-})
+  });
+  
